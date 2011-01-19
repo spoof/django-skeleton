@@ -1,12 +1,26 @@
 settings:
-    dev_requirements_file: dev_requirements.txt
-    requirements_file: requirements.txt
+    - project_name: testproject
+    - site_name: testproject.com
+    - user: spoof
+    - port: '7115'
+    - base_site: ''
+    - production_root: /var/www
+    - dev_requirements_file: dev_requirements.txt
+    - requirements_file: requirements.txt
+    - production_project_root: '%(production_root)s/%(project_name)s'
+    - production_media: '%(production_project_root)s/media'
+    - production_admin_media: '%(production_media)s/admin'
+    - production_logs: '%(production_root)s/logs'
+    - production_conf: '%(production_project_root)s/conf'
 directories:
     - media: '%(project_root)s/media/'
     - conf: '%(project_root)s/conf/'
     - templates: '%(project_root)s/templates/'
 files:
     '%(project_root)s/requirements.pip': requirements.pip
+    '%(project_root)s/conf/%(site_name)s.conf': nginx.conf
+    '%(project_root)s/conf/%(project_name)s.svd': supervisord.conf
+    '%(project_root)s/conf/gunicorn.conf': gunicorn.conf
 copy:
     media: '%(project_root)s'
     templates: '%(project_root)s'
