@@ -1,0 +1,3 @@
+django-extensions==0.5
+ipython==0.10.1
+Fabric==0.1.0

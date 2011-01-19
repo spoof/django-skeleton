@@ -1,0 +1,12 @@
+settings:
+    dev_requirements_file: dev_requirements.txt
+    requirements_file: requirements.txt
+directories:
+    - media: '%(project_root)s/media/'
+    - conf: '%(project_root)s/conf/'
+    - templates: '%(project_root)s/templates/'
+files:
+    '%(project_root)s/requirements.pip': requirements.pip
+copy:
+    media: '%(project_root)s'
+    templates: '%(project_root)s'
