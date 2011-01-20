@@ -121,6 +121,8 @@ def generate():
         context = config['context']
         directories = config['directories']
         files = config['files']
+        copy_dirs = config['copy']
+        
         print 'Creating a virtualenv for the project'
         os.system('cd %(base_site)s && virtualenv --no-site-packages %(project_name)s' % context)
         os.chdir(context['site_root'])
@@ -157,6 +159,12 @@ def generate():
         
         for f, template_name in files.items():
             render_template(template_name, f, context)
+        
+        for src, dest in copy_dirs.items():
+            src = os.path.join(context['configs_dir'], src)
+            dest = dest % config
+            print 'Copying %s' % src
+            os.system('cp -R %s %s' % (src, dest))
         
     except KeyboardInterrupt:
         sys.stderr.write("\nOperation cancelled.\n")
