@@ -1,0 +1,6 @@
+- Add command line arguments
+- Handle Django admin media files in the right way
+- Migrate to Fabric 0.9.3
+- Add the ability to merge templates with HTML5 Boilerplate (http://html5boilerplate.com)
+- Create Python package (maybe)
+- Patching settings.py instead of overwritting it (maybe)
