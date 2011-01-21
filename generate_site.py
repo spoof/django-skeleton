@@ -10,6 +10,7 @@ Copyright (c) 2011 . All rights reserved.
 import os, sys
 import re, copy
 import yaml
+from random import choice
 
 
 AVAILABLE_SECTIONS = ['settings', 'directories', 'files', 'copy']
@@ -86,8 +87,8 @@ def initialize(config_file='conf.yaml'):
     else:
         base_site = os.getcwd()
     
-    production_root = get_variable(settings, 'production_root', description='Production site root', error='Production site root cannot be empty')
-    production_root = production_root.rstrip("/")
+    production_base_site = get_variable(settings, 'production_base_site', description='Production site root', error='Production site root cannot be empty')
+    production_base_site = production_base_site.rstrip("/")
     site_root = os.path.join(base_site, project_name)
     project_root = os.path.join(site_root, project_name)
     
@@ -99,7 +100,8 @@ def initialize(config_file='conf.yaml'):
         'base_site': base_site,
         'configs_dir': configs_dir,
         'project_root': project_root,
-        'production_root': os.path.join(production_root, project_name),
+        'production_base_site': production_base_site,
+        'secret_key': ''.join([choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
     }
     
     for section_name in AVAILABLE_SECTIONS:
@@ -126,7 +128,7 @@ def generate():
         print 'Creating a virtualenv for the project'
         os.system('cd %(base_site)s && virtualenv --no-site-packages %(project_name)s' % context)
         os.chdir(context['site_root'])
-        os.system('pip -E . install -r %(configs_dir)s/dev_requirements.pip && pip -E . install -r %(configs_dir)s/requirements.pip' % context)
+        os.system('pip -E . install -r %(configs_dir)s/%(dev_requirements_file)s && pip -E . install -r %(configs_dir)s/%(requirements_file)s' % context)
         print 'Creating the Django project \'%(project_name)s\'' % (context)
         os.system('source bin/activate && django-admin.py startproject %(project_name)s' % context)
         

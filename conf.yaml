@@ -4,9 +4,10 @@ settings:
     - user: spoof
     - port: '7115'
     - base_site: ''
-    - production_root: /var/www
-    - dev_requirements_file: dev_requirements.txt
-    - requirements_file: requirements.txt
+    - production_base_site: /var/www
+    - dev_requirements_file: dev_requirements.pip
+    - requirements_file: requirements.pip
+    - production_root: '%(production_base_site)s/%(project_name)s'
     - production_project_root: '%(production_root)s/%(project_name)s'
     - production_media: '%(production_project_root)s/media'
     - production_admin_media: '%(production_media)s/admin'
@@ -17,6 +18,8 @@ directories:
     - conf: '%(project_root)s/conf/'
     - templates: '%(project_root)s/templates/'
 files:
+    '%(project_root)s/settings.py': settings.py.conf
+    '%(project_root)s/fabfile.py': fabfile.py.conf
     '%(project_root)s/requirements.pip': requirements.pip
     '%(project_root)s/conf/%(site_name)s.conf': nginx.conf
     '%(project_root)s/conf/%(project_name)s.svd': supervisord.conf
